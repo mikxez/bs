@@ -14,7 +14,7 @@ cd <project-name>
 python -m venv venv
 source venv/bin/activate  # или venv\Scripts\activate на Windows
 3. **Установите зависимости:**
-pip install -r requirements.txt
+pip install django pillow
 4. **Примените миграции:**
 python manage.py makemigrations
 python manage.py migrate
