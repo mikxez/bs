@@ -6,6 +6,7 @@
 - SQLite (по умолчанию)
 - Django Templates + CSS
 - (Опционально) Django REST Framework
+
 Установка и запуск
 1. **Клонируйте репозиторий:**
 git clone <repo-url>
