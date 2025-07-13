@@ -8,38 +8,24 @@
 - (Опционально) Django REST Framework
 Установка и запуск
 1. **Клонируйте репозиторий:**
-```bash
 git clone <repo-url>
 cd <project-name>
-```
 2. **Создайте и активируйте виртуальное окружение:**
-```bash
 python -m venv venv
 source venv/bin/activate  # или venv\Scripts\activate на Windows
-```
 3. **Установите зависимости:**
-```bash
 pip install -r requirements.txt
-```
 4. **Примените миграции:**
-```bash
 python manage.py makemigrations
 python manage.py migrate
-```
 5. **Создайте суперпользователя (опционально):**
-```bash
 python manage.py createsuperuser
-```
 6. **Запустите сервер:**
-```bash
 python manage.py runserver
-```
 Откройте [http://127.0.0.1:8000](http://127.0.0.1:8000) в браузере.
 Тестирование
 Для запуска тестов:
-```bash
 python manage.py test ads
-```
 Основной функционал
 - Регистрация и авторизация
 - Создание/редактирование/удаление объявлений
