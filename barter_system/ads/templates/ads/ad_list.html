@@ -1,0 +1,67 @@
+{% extends 'ads/base.html' %}
+
+{% block content %}
+<h2>Объявления</h2>
+
+<form method="get" class="sidebar">
+    <input type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
+    <input type="text" name="category" placeholder="Категория" value="{{ request.GET.category }}">
+    <select name="condition">
+        <option value="">Состояние</option>
+        <option value="new" {% if request.GET.condition == 'new' %}selected{% endif %}>Новый</option>
+        <option value="used" {% if request.GET.condition == 'used' %}selected{% endif %}>Б/у</option>
+    </select>
+    <button type="submit" class="btn">Поиск</button>
+</form>
+
+<div class="ads-list">
+    {% for ad in ads %}
+        <div class="card">
+            <h3>{{ ad.title }}</h3>
+            <p>{{ ad.category }} — {{ ad.get_condition_display }}</p>
+            <p>{{ ad.description }}</p>
+            <p>Автор: {{ ad.user.username }} | {{ ad.created_at|date:'d.m.Y H:i' }}</p>
+
+            {% if ad.image_url %}
+                <img src="{{ ad.image_url }}" alt="Image">
+            {% endif %}
+
+            {% if user == ad.user %}
+                <p>
+                    <a href="{% url 'ad_edit' ad.pk %}" class="btn">Редактировать</a>
+                    <a href="{% url 'ad_delete' ad.pk %}" class="btn btn-danger">Удалить</a>
+                </p>
+            {% else %}
+                <p>
+                    <a href="{% url 'proposal_create' %}?receiver={{ ad.pk }}" class="btn btn-exchange">Предложить обмен</a>
+
+                </p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>Объявлений нет.</p>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    {% if ads.has_previous %}
+        <a href="?page={{ ads.previous_page_number }}" class="arrow">&laquo;</a>
+    {% else %}
+        <span class="disabled arrow">&laquo;</span>
+    {% endif %}
+
+    {% for num in ads.paginator.page_range %}
+        {% if ads.number == num %}
+            <span class="current">{{ num }}</span>
+        {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if ads.has_next %}
+        <a href="?page={{ ads.next_page_number }}" class="arrow">&raquo;</a>
+    {% else %}
+        <span class="disabled arrow">&raquo;</span>
+    {% endif %}
+</div>
+{% endblock %}

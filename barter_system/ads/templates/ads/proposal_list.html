@@ -1,0 +1,35 @@
+{% extends 'ads/base.html' %}
+
+{% block content %}
+<h2>Предложения обмена</h2>
+
+<div class="card">
+    <form method="get">
+        <input type="text" name="sender" placeholder="Отправитель" value="{{ request.GET.sender }}">
+        <input type="text" name="receiver" placeholder="Получатель" value="{{ request.GET.receiver }}">
+        <select name="status">
+            <option value="">Статус</option>
+            <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Ожидает</option>
+            <option value="accepted" {% if request.GET.status == 'accepted' %}selected{% endif %}>Принята</option>
+            <option value="rejected" {% if request.GET.status == 'rejected' %}selected{% endif %}>Отклонена</option>
+        </select>
+        <button type="submit" class="btn">Фильтровать</button>
+    </form>
+</div>
+
+{% for proposal in proposals %}
+    <div class="card">
+        <p><strong>{{ proposal.ad_sender.title }}</strong> → <strong>{{ proposal.ad_receiver.title }}</strong></p>
+        <p>{{ proposal.comment }}</p>
+        <p>Статус: {{ proposal.get_status_display }}</p>
+        <p>Дата: {{ proposal.created_at|date:'d.m.Y H:i' }}</p>
+
+        {% if user == proposal.ad_receiver.user and proposal.status == 'pending' %}
+            <a href="{% url 'proposal_update_status' proposal.pk 'accepted' %}" class="btn">Принять</a>
+            <a href="{% url 'proposal_update_status' proposal.pk 'rejected' %}" class="btn btn-danger">Отклонить</a>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>Предложений пока нет.</p>
+{% endfor %}
+{% endblock %}

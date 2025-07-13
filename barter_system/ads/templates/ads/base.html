@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Обмен вещами</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ads/style.css' %}">
+</head>
+<body>
+<header>
+    <a href="{% url 'ad_list' %}" style="text-decoration: none; color: inherit;">
+        <h1>Обмен вещами</h1>
+    </a>
+
+    <div class="nav">
+        {% if user.is_authenticated %}
+        Вы вошли как {{ user.username }} |
+        <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
+        <a href="{% url 'login' %}">Войти</a> |
+        <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+    </div>
+    <nav>
+        <a href="{% url 'ad_list' %}">Все объявления</a> |
+        <a href="{% url 'ad_create' %}">Добавить объявление</a> |
+        <a href="{% url 'proposal_list' %}">Предложения обмена</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+</body>
+</html>

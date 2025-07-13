@@ -1,0 +1,15 @@
+{% extends 'ads/base.html' %}
+
+{% block content %}
+<h2>{% if form.instance.pk %}Редактировать{% else %}Создать{% endif %} объявление</h2>
+
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Сохранить</button>
+    </form>
+</div>
+
+<a href="{% url 'ad_list' %}" class="btn">← Назад к списку</a>
+{% endblock %}
